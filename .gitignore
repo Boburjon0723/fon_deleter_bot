@@ -1,0 +1,30 @@
+# Maxfiy fayllar — GitHub / Railway ga YUBORILMAYDI
+.env
+.env.*
+!.env.example
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+.venv/
+venv/
+ENV/
+
+# Mahalliy chiqish
+output/
+
+# Neuronal modellar (yuklab olinadi; GitHub ga kiritilmaydi)
+*.pt
+runs/
+wandb/
+
+# IDE
+.idea/
+.vscode/
+*.swp
+
+# OS
+Thumbs.db
+.DS_Store

@@ -1,0 +1,16 @@
+.git
+.gitignore
+__pycache__
+*.pyc
+.pytest_cache
+.venv
+venv
+output
+*.png
+*.jpg
+*.jpeg
+test_input.png
+ishga_tushirish.bat
+run_gui.bat
+start_bot.bat
+gui.py

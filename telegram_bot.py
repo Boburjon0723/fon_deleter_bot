@@ -17,6 +17,12 @@ import tempfile
 from functools import partial
 from pathlib import Path
 
+import pytz
+import telegram._utils.datetime as _ptb_dt
+
+# PTB UTC = datetime.timezone.utc; APScheduler 3.x faqat pytz qabul qiladi (Windows xato)
+_ptb_dt.UTC = pytz.UTC
+
 from telegram import InputMediaPhoto, Update
 from telegram.constants import ChatAction
 from telegram.ext import Application, CommandHandler, ContextTypes, MessageHandler, filters
@@ -150,19 +156,21 @@ def main() -> None:
     try:
         from dotenv import load_dotenv
 
-        load_dotenv()
+        # Ishchi katalog emas, skript yonidagi .env (Git Bash / boshqa cwd uchun)
+        load_dotenv(Path(__file__).resolve().parent / ".env")
     except ImportError:
         pass
 
-    token = os.environ.get("8710771801:AAGVqRzUw", "").strip()
+    token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
     if not token:
         raise SystemExit(
             "TELEGRAM_BOT_TOKEN o‘rnatilmagan.\n"
-            "Windows (PowerShell): $env:VqRzUw'\n"
+            "Loyiha papkasida `.env` yarating (yoki: python setup_env.py).\n"
+            "Git Bash / PowerShell: export TELEGRAM_BOT_TOKEN='...'  yoki  $env:TELEGRAM_BOT_TOKEN='...'\n"
             "Keyin: python telegram_bot.py"
         )
 
-    app = Application.builder().token(token).build()
+    app = Application.builder().token(token).job_queue(None).build()
     app.add_handler(CommandHandler("start", cmd_start))
     app.add_handler(CommandHandler("help", cmd_help))
     app.add_handler(MessageHandler(filters.PHOTO, handle_image))

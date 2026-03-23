@@ -34,6 +34,8 @@ https://github.com/Boburjon0723/fon_deleter_bot
 
 Docker image `Dockerfile` orqali yig‘iladi; start: `python telegram_bot.py`.
 
+**Build uzoq (10–25 daqiqa) — normal:** birinchi marta PyTorch CPU, OpenCV, Ultralytics yuklanadi. **“Crashed · Building”** ko‘rinsa: eski deployni **Cancel** qiling, yangi commit bilan **Redeploy** qiling. Loyihada **CPU-only** torch ishlatiladi (`requirements-docker.txt`).
+
 ## Mahalliy ishga tushirish
 
 ```bash

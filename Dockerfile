@@ -1,14 +1,14 @@
-# Railway / Docker: Telegram bot + FastSAM (CPU)
+# Railway: CPU-only PyTorch (kichikroq, tezroq yuklash) + bot
 FROM python:3.11-slim-bookworm
 
 ENV PYTHONUNBUFFERED=1 \
     PIP_NO_CACHE_DIR=1 \
+    PIP_DEFAULT_TIMEOUT=300 \
     XDG_CACHE_HOME=/data/cache \
     TORCH_HOME=/data/cache/torch
 
 WORKDIR /app
 
-# OpenCV (cv2) uchun: libxcb.so.1 va bog‘liq X11 kutubxonalari (GUI emas, headless)
 RUN apt-get update && apt-get install -y --no-install-recommends \
     libglib2.0-0 \
     libgomp1 \
@@ -23,15 +23,17 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     libgl1 \
     && rm -rf /var/lib/apt/lists/*
 
-COPY requirements.txt .
-RUN pip install --upgrade pip && pip install -r requirements.txt
+# 1) PyTorch CPU — PyPI dagi to‘liq CUDA build emas (Railway build tezroq)
+RUN pip install --upgrade pip setuptools wheel \
+    && pip install torch torchvision --index-url https://download.pytorch.org/whl/cpu
 
-# Build vaqtida tekshiruv (libxcb / libgl xatolari shu yerda chiqadi)
-RUN python -c "import cv2; import numpy; print('opencv OK', cv2.__version__)"
+COPY requirements-docker.txt .
+# 2) Qolgan paketlar (ultralytics allaqachon o‘rnatilgan torch dan foydalanadi)
+RUN pip install -r requirements-docker.txt
+
+RUN python -c "import torch; import cv2; print('OK torch', torch.__version__, 'cv2', __import__('cv2').__version__)"
 
 COPY segment_products.py telegram_bot.py ./
-
-# /data bo‘sh bo‘lmasa cache shu yerda saqlanadi (Railway Volume tutash)
 RUN mkdir -p /data/cache
 
 CMD ["python", "telegram_bot.py"]

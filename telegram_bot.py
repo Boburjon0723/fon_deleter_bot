@@ -154,11 +154,11 @@ def main() -> None:
     except ImportError:
         pass
 
-    token = os.environ.get("TELEGRAM_BOT_TOKEN", "").strip()
+    token = os.environ.get("8710771801:AAGVqRzUw", "").strip()
     if not token:
         raise SystemExit(
             "TELEGRAM_BOT_TOKEN o‘rnatilmagan.\n"
-            "Windows (PowerShell): $env:TELEGRAM_BOT_TOKEN='123456:ABC...'\n"
+            "Windows (PowerShell): $env:VqRzUw'\n"
             "Keyin: python telegram_bot.py"
         )
 

@@ -11,6 +11,12 @@ https://github.com/Boburjon0723/fon_deleter_bot
 - **`.env` fayl gitga kiritilmaydi** (`.gitignore`).
 - Token va maxfiy ma’lumotlarni faqat **Railway Variables** yoki mahalliy `.env` da saqlang.
 
+## O‘zgaruvchilarni yozish (kod)
+
+- **Mahalliy `.env`:** `python setup_env.py` (tokenni so‘raydi yoki `--token "..."`)
+- **Railway CLI:** [CLI qo‘llanmasi](https://docs.railway.com/guides/cli) — `railway variable set KEY=value`
+- **PowerShell:** `.\railway_vars.ps1` (oldingi `railway login` + `railway link`)
+
 ## Railway deploy
 
 1. Reponi GitHub ga push qiling.
